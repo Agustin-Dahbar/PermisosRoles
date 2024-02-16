@@ -1,0 +1,76 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="PaginaMaestra.master.cs" Inherits="SesionesRolesPermisos.Paginas.PaginaMaestra" %>
+
+<!DOCTYPE html>
+
+<html class="h-100">
+<head runat="server">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>
+        <asp:ContentPlaceHolder runat="server" ID="title"></asp:ContentPlaceHolder>
+    </title>
+    <meta http-equiv="Content-Type" content="text/html"; charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-llKceBEe5ZFHO/2YNhPdN6A2q0MaPJTSTXTmGxuPePAAHvBseJNtcs6Y/S+1RZE2A5YzPMpLWCEVaLzyuuxKg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body runat="server" id="idBody" class="d-flex flex-column h-100" style="background-color: white;"> <!--Convertimos el body en flexible y le damos un flex-direction: column. Su eje Y será ahora el principal. Es decir que en este caso Justify content afectará al eje Y, mientras que align-items al X. Al final le damos un height:100%, ocupará toda la altura del viewport. -->
+    
+    <!--Form que contendrá a la navbar, y al boton que la desplegaran en caso de collapse (pantallas != lg).-->
+    <form id="form1" runat="server">
+        <!--Navbar a la que le indicamos que en caso de pantalla lg su contenido este expandido y no colapsado, además le damos un estilo compatible con un fondo oscuro a las letras y luego le damos el fondo oscuro a la navbar-->
+        <nav runat="server" class="navbar navbar-expand-lg navbar-dark bg-dark" id="idNavbar"> 
+            <div class="container"> <!--Contenedor flexible, elemento de mayor jerarquía en la navbar, anidará todo su contenido-->
+                <asp:Label runat="server" class="navbar-brand">Bienvenido al registro de permisos</asp:Label><!--navbar-brand indica que este lbl será el logo de la navbar, su elemento principal.-->
+
+                <!-- Botón colapsable que contendrá a la lista, se mostrará en caso de != lg devices. En caso de lg == true se ignorará este btn y su span.-->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#contenidoNavbar">
+                    <span class="navbar-toggler-icon"></span> <!--lineas estilizadas del button-->
+                </button>
+                <!--data-bs-toggle hace referencia al evento al que responde el button-->
+                <!--data-bs-target hace referencia a que contenido se mostrará luego del evento-->
+                
+                <!--Div colapsable en el que anidaremos a la lista y los list items de la navbar para que se puedan colapsar en el btn en caso de necesitarlo.-->
+                <div class="collapse navbar-collapse" id="contenidoNavbar">
+                    <ul class="navbar-nav">  <!--lista desordenada con una clase que estiliza, al sacarle, la navbar se arruinó. Importante para el posicionado de los LI.-->
+                        <li class="nav-item"> <!--Uno de los 4 ListItem de la navbar, esta clase es rebundante en este proyecto pero la mantenemos para recordarla.--> 
+                            <a class="nav-link" href="Index.aspx">Inicio</a> <!--Elemento ancla, la clase le da estilo y posición, sin ella es un ordinario anti estetíco hipervínculo-->
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="AdministrarPermisos.aspx">Administrar Permisos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="CrearFormularios.aspx">Crear Formularios</a>
+                        </li>
+                        <li class="nav-item">
+                            <asp:Button runat="server" CssClass="nav-link" Text="Cerrar Sesión" OnClick="CerrarSesion_Click" />
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <asp:ImageButton runat="server" CssClass="h-100" style="position:absolute; left:95%;" ImageUrl="~/Narutoo.png" OnClick="CambiarTema_Click">
+            <%--Al ImageButton le damos un h-100, ya que era mucho más grande que el elemento LI que lo contendría. Al darle h-100 le dimos la misma altura.
+            Eso no fue suficiente, ya que aunque la altura concordará, tenia mt, asi que tuvimos que eliminarlo. Ahora si, encuadra perfecto. 
+                El mt lo ocasionaba que este dentro de la UL. Al sacarlo de ella lo borre y no le volvió el mt.--%> 
+
+            <%--<i id="iconoTema" runat="server" class="fas fa-sun"></i> ICONO DE FONTAWESOME QUE NO ME FUNCIONÓ. En su inicio esto iba a ser un asp:Button con un icono FontAwesome dentro.--%> 
+            </asp:ImageButton>
+        </nav>
+        
+        <!--Dentro de este ContentPlaceHolder se ubicará el contenido anidado en el <asp:Content ContentPlaceHolderID="body"> en los formularios que hereden de esta .Master-->
+        <asp:ContentPlaceHolder ID="body" runat="server">
+        </asp:ContentPlaceHolder>
+    </form>
+
+
+    <!--El footer, última sección del .Master, ya luego del contenido del formulario que heredó de el.-->
+    <footer runat="server" class="mt-auto py-3 bg-dark text-light text-center" id="idFooter"> <!--margin-top: auto; para que ignore el flujo natural de contenido y pase a ubicarse en la parte inferior, sin esta clase se ubicaría debajo de la navbar. 1 rem de Padding en el eje Y. Fondo oscuro. Texto claro y centrado.-->
+            <p>&copy; Agustin Dahbar. Argentina. 2024.</p>
+    </footer>
+
+<!--Script obligatorio para que funcionen el boton navbar-toggler en caso de pantallas != lg -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+
+</body>
+</html>
